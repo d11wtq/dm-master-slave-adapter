@@ -51,6 +51,47 @@ describe DataMapper::Adapters::MasterSlaveAdapter do
     @adapter.slave.should == @slave
   end
 
+  describe "state" do
+    it "allows binding reads to the master" do
+      @adapter.bind_to_master
+      @master.should_receive(:read).with(@args).and_return(@result)
+      @adapter.read(@args).should be(@result)
+    end
+
+    it "reports if it is bound to master" do
+      @adapter.bind_to_master
+      @adapter.should be_bound_to_master
+    end
+
+    it "binds all reads to the master after the first write" do
+      @master.should_receive(:update)
+      @master.should_receive(:read).with(@args).and_return(@result)
+      @adapter.update(stub())
+      @adapter.read(@args).should be(@result)
+    end
+
+    it "can be unbound from master" do
+      @adapter.bind_to_master
+      @adapter.reset_binding
+      @slave.should_receive(:read).with(@args).and_return(@result)
+      @adapter.read(@args).should be(@result)
+    end
+
+    it "does not remain bound to master when using the adapter directly" do
+      @master.stub(:execute => nil)
+      @adapter.master.execute(stub())
+      @adapter.should_not be_bound_to_master
+    end
+
+    it "can be bound to master in the context of a block" do
+      @master.should_receive(:read).with(@args).and_return(@result)
+      @adapter.bind_to_master do
+        @adapter.read(@args).should be(@result)
+      end
+      @adapter.should_not be_bound_to_master
+    end
+  end
+
   context "configured with an options hash" do
     before(:each) do
       @master = double()

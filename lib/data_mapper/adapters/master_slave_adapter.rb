@@ -34,10 +34,25 @@ module DataMapper
 
       def bind_to_master
         @reader = @master
+
+        if block_given?
+          begin
+            yield
+          ensure
+            reset_binding
+          end
+        end
+
+        self
+      end
+
+      def bound_to_master?
+        @reader.equal?(@master)
       end
 
       def reset_binding
         @reader = @slave
+        self
       end
 
       private
@@ -48,6 +63,7 @@ module DataMapper
 
       def writer
         bind_to_master
+        @master
       end
 
       def method_missing(meth, *args, &block)
