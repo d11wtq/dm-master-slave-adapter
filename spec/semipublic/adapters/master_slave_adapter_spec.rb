@@ -92,6 +92,15 @@ describe DataMapper::Adapters::MasterSlaveAdapter do
       end
       @adapter.should_not be_bound_to_master
     end
+
+    it "does not unbind from master after binding for a block if it was already bound before the block" do
+      @adapter.bind_to_master
+      @master.should_receive(:read).with(@args).and_return(@result)
+      @adapter.bind_to_master do
+        @adapter.read(@args).should be(@result)
+      end
+      @adapter.should be_bound_to_master
+    end
   end
 
   context "configured with an options hash" do
