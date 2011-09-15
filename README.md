@@ -168,7 +168,7 @@ slaves to the MasterSlaveAdapter.  In YAML, that looks like this:
 
 Please file any issues in the issue tracker at GitHub:
 
-    - https://github.com/d11wtq/dm-master-slave-adapter/issues
+  - https://github.com/d11wtq/dm-master-slave-adapter/issues
 
 ## Potential TODOs
 
