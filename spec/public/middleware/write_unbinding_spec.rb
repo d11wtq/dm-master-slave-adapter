@@ -19,4 +19,10 @@ describe DataMapper::MasterSlaveAdapter::Middleware::WriteUnbinding do
     adapter.should_receive(:reset_binding)
     middleware.call(env)
   end
+
+  it "ensures the binding is reset when an error occurs" do
+    app.stub(:call) { raise "An error" }
+    adapter.should_receive(:reset_binding)
+    middleware.call(env) rescue Exception
+  end
 end
