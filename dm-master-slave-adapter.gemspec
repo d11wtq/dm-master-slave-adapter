@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "dm-master-slave-adapter/version"
+require "data_mapper/master_slave_adapter/version"
 
 Gem::Specification.new do |s|
   s.name        = "dm-master-slave-adapter"
