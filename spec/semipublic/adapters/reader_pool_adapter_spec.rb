@@ -16,7 +16,6 @@ describe DataMapper::Adapters::ReaderPoolAdapter do
   end
 
   context "delegation" do
-    # FIXME: I think probably we should just raise an exception on anything by read/aggregate
     it "sends CRUD operations to a random adapter from the pool" do
       @random_number.should_receive(:rand).exactly(4).times.and_return(1)
       @delegate_b.should_receive(:create).with(@args).and_return(@result)

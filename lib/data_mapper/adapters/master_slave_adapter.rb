@@ -32,15 +32,14 @@ module DataMapper
         @reader = @slave
       end
 
-      # FIXME: Don't reset the binding if we were already bound when invoked, or if we get bound again during invocation
       def bind_to_master
-        @reader = @master
+        original_reader, @reader = @reader, @master
 
         if block_given?
           begin
             yield
           ensure
-            reset_binding
+            @reader = original_reader
           end
         end
 

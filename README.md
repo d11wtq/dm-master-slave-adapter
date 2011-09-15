@@ -108,8 +108,9 @@ a block, simply by passing a block to #bind_to_master, like so:
       ...
     end
 
-Once the block has completed, the state will be restored to the original state, unless a
-write operation occurred, of course.
+Once the block has completed, the adapter will be restored to its original state,
+regardless of what writes may have occurred.  Note that if the adapter was already
+implictly bound to master before the block was invoked, this will have no effect.
 
 
 ### Using the ReaderPoolAdapter
@@ -168,6 +169,11 @@ slaves to the MasterSlaveAdapter.  In YAML, that looks like this:
 Please file any issues in the issue tracker at GitHub:
 
     - https://github.com/d11wtq/dm-master-slave-adapter/issues
+
+## Potential TODOs
+
+  - Raise an exception for #create, #update and #delete on the reader
+  - Enhanced logging to include the details of the adapter being used
 
 ## Copyright and Licensing
 
