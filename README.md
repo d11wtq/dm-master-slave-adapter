@@ -88,7 +88,7 @@ Rack middleware is provided to do this automatically.  The easiest way to use th
 Rails application, is to mount it inside your ApplicationController:
 
     class ApplicationController < ActionController::Base
-      use DataMapper::MasterSlaveAdapter::Middlware::WriteUnbinding, :default
+      use DataMapper::MasterSlaveAdapter::Middleware::WriteUnbinding, :default
     end
 
 You can use the middleware anywhere a Rack middleware can be used, however, but it must
