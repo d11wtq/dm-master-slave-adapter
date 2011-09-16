@@ -83,13 +83,12 @@ with:
     DataMapper.repository(:default).adapter.reset_binding
 
 In a web application, you'll typically want to reset the binding to master at the end
-of each request, to ensure subsquent requests are not permanently bound to the master.
-
-A Rack middleware is provided to do this automatically.  The easiest way to use this in
-a Rails application, is to mount it inside your ApplicationController:
+of each request, to ensure subsquent requests are not permanently bound to the master. A
+Rack middleware is provided to do this automatically.  The easiest way to use this in a
+Rails application, is to mount it inside your ApplicationController:
 
     class ApplicationController < ActionController::Base
-      use DataMapper::MasterSlaveAdapter::Binding, :default
+      use DataMapper::MasterSlaveAdapter::Middlware::WriteUnbinding, :default
     end
 
 You can use the middleware anywhere a Rack middleware can be used, however, but it must
