@@ -55,6 +55,10 @@ module DataMapper
         self
       end
 
+      def kind_of?(kind)
+        super || master.kind_of?(kind)
+      end
+
       private
 
       def reader

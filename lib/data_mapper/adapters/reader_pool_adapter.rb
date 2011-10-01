@@ -36,6 +36,10 @@ module DataMapper
         random_adapter.send(meth, *args, &block)
       end
 
+      def kind_of?(kind)
+        super || random_adapter.kind_of?(kind)
+      end
+
       private
 
       def random_adapter

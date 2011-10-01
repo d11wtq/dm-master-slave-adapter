@@ -53,6 +53,17 @@ describe DataMapper::Adapters::MasterSlaveAdapter do
     end
   end
 
+  describe "#kind_of?" do
+    it "returns true if kind matches itself" do
+      @adapter.kind_of?(DataMapper::Adapters::MasterSlaveAdapter).should be_true
+    end
+
+    it "delegates to the master if kind does not match itself" do
+      @master.should_receive(:kind_of?).with(String).and_return(false)
+      @adapter.kind_of?(String).should be_false
+    end
+  end
+
   describe "state" do
     it "allows binding reads to the master" do
       @adapter.bind_to_master
