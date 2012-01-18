@@ -64,6 +64,17 @@ describe DataMapper::Adapters::MasterSlaveAdapter do
     end
   end
 
+  describe "#respond_to?" do
+    it "returns true if self responds to method" do
+      @adapter.respond_to?(:bind_to_master).should be_true
+    end
+
+    it "delegates to the master if self does not respond to method" do
+      @master.should_receive(:respond_to?).with(:awesomeness).and_return(false)
+      @adapter.respond_to?(:awesomeness).should be_false
+    end
+  end
+
   describe "state" do
     it "allows binding reads to the master" do
       @adapter.bind_to_master

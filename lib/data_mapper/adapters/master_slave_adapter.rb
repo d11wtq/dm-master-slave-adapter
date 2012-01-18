@@ -59,6 +59,10 @@ module DataMapper
         super || master.kind_of?(kind)
       end
 
+      def respond_to?(method)
+        super || master.respond_to?(method)
+      end
+
       private
 
       def reader
