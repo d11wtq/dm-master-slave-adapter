@@ -41,9 +41,9 @@ module DataMapper
           ensure
             @reader = original_reader
           end
+        else
+          self
         end
-
-        self
       end
 
       def bound_to_master?
