@@ -137,6 +137,8 @@ selected from a reader.
 
 ``` ruby
 class ApplicationController < ActionController::Base
+  before_filter :bind_to_master, :only => [:create, :update, :destroy]
+
   def bind_to_master
     DataMapper.repository(:default).adapter.bind_to_master
   end
