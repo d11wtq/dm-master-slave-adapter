@@ -39,6 +39,7 @@ DataMapper.setup(:default, {
     :password => ""
   }
 })
+```
 
 Here we create a repository named :default, which uses MySQL adapters for the
 master and the slave.
