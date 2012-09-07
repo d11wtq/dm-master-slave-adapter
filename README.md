@@ -1,8 +1,9 @@
-# DataMapper Master/Slave Adapter (for MySQL replication etc)
+# DataMapper Master/Slave Adapter (for MySQL/PostgreSQL replication etc)
 
 This DataMapper adapter provides a thin layer infront of at least two
 real DataMaper adapters, splitting reads and writes between a 'master'
-and a 'slave'.
+and a 'slave'.  It has been tested to work with both PostgreSQL and MySQL
+but it should work with anything that uses the master/slave ideology.
 
 The adapter comes in two parts:
 
@@ -125,6 +126,22 @@ Once the block has completed, the adapter will be restored to its original state
 regardless of what writes may have occurred.  Note that if the adapter was already
 implictly bound to master before the block was invoked, this will have no effect.
 
+### Suggestion for Rails apps
+
+We, at Flippa.com, have found it useful to preemptively bind to the master on all
+`#create`, `#update` and `#destroy` actions inside of our controllers. We follow fairly
+strict resourceful routing, so this makes a great deal of sense for us. The benefit to
+doing this is that if your reader pool ever lags behind (such as after execessive write
+activity) you don't risk performing write operations on the basis of out-of-date data
+selected from a reader.
+
+``` ruby
+class ApplicationController < ActionController::Base
+  def bind_to_master
+    DataMapper.repository(:default).adapter.bind_to_master
+  end
+end
+```
 
 ### Using the ReaderPoolAdapter
 
